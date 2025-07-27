@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wave - Music Player</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bg-overlay"></div>
+    
+    <div class="app">
+        <header class="header">
+            <div class="logo">Wave</div>
+            <div class="search-container">
+                <i class="ri-search-line search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search music, artists, albums..." id="searchInput">
+            </div>
+            <div class="header-actions">
+                <button class="header-btn" id="openSettingsBtn" title="Settings">
+                    <i class="ri-settings-3-line"></i>
+                </button>
+                <button class="header-btn" title="Profile">
+                    <i class="ri-user-line"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="main">
+            <aside class="sidebar">
+                <button class="nav-btn active" data-view="library" title="Library">
+                    <i class="ri-music-line"></i> Library
+                </button>
+                <button class="nav-btn" data-view="playlist" title="Playlists">
+                    <i class="ri-bar-chart-horizontal-line"></i> Playlists
+                </button>
+                <button class="nav-btn" data-view="favorites" title="Favorites">
+                    <i class="ri-heart-line"></i> Favorites
+                </button>
+                <button class="nav-btn" data-view="recent" title="Recent">
+                    <i class="ri-time-line"></i> Recent
+                </button>
+            </aside>
+
+            <section class="content-view-container" id="contentViewContainer">
+                </section>
+
+            <aside class="now-playing">
+                <div class="album-artwork" id="albumArtwork">
+                    <div class="album-placeholder">
+                        <i class="ri-disc-line"></i>
+                    </div>
+                </div>
+                <div class="current-track-info">
+                    <div class="current-title" id="currentTitle">Select a track</div>
+                    <div class="current-artist" id="currentArtist">Unknown Artist</div>
+                </div>
+            </aside>
+        </main>
+
+        <footer class="controls">
+            <div class="left-controls">
+                <button class="control-btn" id="shuffleBtn" title="Shuffle">
+                    <i class="ri-shuffle-line"></i>
+                </button>
+                <button class="control-btn" id="repeatBtn" title="Repeat">
+                    <i class="ri-repeat-line"></i>
+                </button>
+            </div>
+
+            <div class="main-controls">
+                <button class="control-btn" id="prevBtn" title="Previous">
+                    <i class="ri-skip-back-line"></i>
+                </button>
+                <button class="control-btn play-btn" id="playBtn" title="Play">
+                    <i class="ri-play-fill"></i>
+                </button>
+                <button class="control-btn" id="nextBtn" title="Next">
+                    <i class="ri-skip-forward-line"></i>
+                </button>
+            </div>
+
+            <div class="right-controls">
+                <div class="volume-control">
+                    <button class="control-btn" id="volumeBtn" title="Volume">
+                        <i class="ri-volume-up-line"></i>
+                    </button>
+                    <div class="volume-slider" id="volumeSlider">
+                        <div class="volume-fill" id="volumeFill" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="progress-section">
+                <span class="time-current" id="currentTime">0:00</span>
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+                <span class="time-duration" id="totalTime">0:00</span>
+            </div>
+        </footer>
+    </div>
+
+    <audio id="audioPlayer" preload="none"></audio>
+    
+    <div id="alertContainer"></div>
+    <div id="modalContainer"></div>
+
+    <div id="settingsModal" class="modal-wrapper hidden">
+        <div class="modal-overlay" id="settingsOverlay"></div>
+        <div class="modal-content settings-modal">
+            <div class="modal-header">
+                <h3>Settings</h3>
+                <button id="closeSettingsBtn" class="action-btn"><i class="ri-close-line"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <i class="ri-moon-line"></i>
+                        <span>Theme</span>
+                    </div>
+                    <div class="setting-control">
+                         <span class="theme-label">Light</span>
+                         <div class="toggle-switch">
+                            <input type="checkbox" id="themeToggleSwitch">
+                            <label for="themeToggleSwitch" class="slider"></label>
+                        </div>
+                        <span class="theme-label">Dark</span>
+                    </div>
+                </div>
+                 <div class="setting-item">
+                    <div class="setting-label">
+                        <i class="ri-database-2-line"></i>
+                        <span>Library</span>
+                    </div>
+                    <div class="setting-control">
+                        <button class="modal-button danger" id="clearLibraryBtn">
+                            <i class="ri-delete-bin-line"></i> Clear All Tracks
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,455 @@
+/* ▼▼▼ ここから追加 ▼▼▼ */
+:root {
+    /* --- Dark Theme (Default) --- */
+    --bg-color-dark: #0a0a0a;
+    --app-bg-dark: rgba(0, 0, 0, 0.4);
+    --glass-border-dark: rgba(255, 255, 255, 0.1);
+    --text-color-dark: white;
+    --text-muted-dark: rgba(255, 255, 255, 0.5);
+    --control-bg-dark: rgba(255, 255, 255, 0.05);
+    --control-hover-bg-dark: rgba(255, 255, 255, 0.1);
+    --active-gradient-dark: linear-gradient(180deg, #ffffff, #a0a0a0);
+    --progress-fill-dark: linear-gradient(90deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6));
+
+    /* --- Light Theme --- */
+    --bg-color-light: #f0f2f5;
+    --app-bg-light: rgba(255, 255, 255, 0.6);
+    --glass-border-light: rgba(0, 0, 0, 0.08);
+    --text-color-light: #333333;
+    --text-muted-light: rgba(0, 0, 0, 0.4);
+    --control-bg-light: rgba(255, 255, 255, 0.3);
+    --control-hover-bg-light: rgba(255, 255, 255, 0.5);
+    --active-gradient-light: linear-gradient(180deg, #007aff, #0056b3);
+    --progress-fill-light: linear-gradient(90deg, #007aff, #00c6ff);
+
+    /* --- Default Variables --- */
+    --bg-color: var(--bg-color-dark);
+    --app-bg: var(--app-bg-dark);
+    --glass-border: var(--glass-border-dark);
+    --text-color: var(--text-color-dark);
+    --text-muted: var(--text-muted-dark);
+    --control-bg: var(--control-bg-dark);
+    --control-hover-bg: var(--control-hover-bg-dark);
+    --active-gradient: var(--active-gradient-dark);
+    --progress-fill: var(--progress-fill-dark);
+}
+
+[data-theme="light"] {
+    --bg-color: var(--bg-color-light);
+    --app-bg: var(--app-bg-light);
+    --glass-border: var(--glass-border-light);
+    --text-color: var(--text-color-light);
+    --text-muted: var(--text-muted-light);
+    --control-bg: var(--control-bg-light);
+    --control-hover-bg: var(--control-hover-bg-light);
+    --active-gradient: var(--active-gradient-light);
+    --progress-fill: var(--progress-fill-light);
+}
+
+/* ▼▼▼ Light Theme Overrides ▼▼▼ */
+[data-theme="light"] .header {
+    background: rgba(255, 255, 255, 0.2);
+}
+[data-theme="light"] .sidebar {
+    background: rgba(255, 255, 255, 0.1);
+}
+[data-theme="light"] .search-input:focus {
+    border-color: rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+[data-theme="light"] .header-btn {
+    border-color: rgba(0, 0, 0, 0.05);
+}
+[data-theme="light"] .action-btn:hover {
+    background: rgba(0, 0, 0, 0.08);
+}
+[data-theme="light"] .toggle-switch .slider {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+/* ▲▲▲ Light Theme Overrides ▲▲▲ */
+/* ▲▲▲ ここまで追加 ▲▲▲ */
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
+    background: var(--bg-color); /* MODIFIED */
+    color: var(--text-color); /* MODIFIED */
+    overflow: hidden;
+    height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease; /* MODIFIED */
+}
+
+/* Animated Background */
+.bg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.2) 0%, transparent 50%);
+    background-size: 200% 200%;
+    animation: floatBg 20s ease-in-out infinite;
+    z-index: -1;
+    transition: background-position 1s ease;
+}
+
+[data-theme="light"] .bg-overlay {
+    background: radial-gradient(circle at 20% 80%, rgba(0, 122, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 199, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(100, 200, 255, 0.1) 0%, transparent 50%);
+}
+
+
+@keyframes floatBg {
+    0%, 100% {
+        background-position: 0% 0%, 100% 0%, 40% 40%;
+    }
+    50% {
+        background-position: 100% 100%, 0% 100%, 60% 60%;
+    }
+}
+
+
+/* Main Container */
+.app {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 80px 1fr 100px;
+    background: var(--app-bg); /* MODIFIED */
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border); /* MODIFIED */
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* MODIFIED */
+}
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(40px);
+    border-bottom: 1px solid var(--glass-border); /* MODIFIED */
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    background: var(--active-gradient); /* MODIFIED */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.search-container {
+    flex: 1;
+    max-width: 500px;
+    margin: 0 60px;
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 20px 12px 50px;
+    background: var(--control-bg); /* MODIFIED */
+    border: 1px solid var(--glass-border); /* MODIFIED */
+    border-radius: 50px;
+    color: var(--text-color); /* MODIFIED */
+    font-size: 15px;
+    backdrop-filter: blur(20px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+}
+
+.search-input:focus {
+    background: var(--control-hover-bg); /* MODIFIED */
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.01);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.search-input::placeholder {
+    color: var(--text-muted); /* MODIFIED */
+}
+
+.search-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted); /* MODIFIED */
+    font-size: 16px;
+    pointer-events: none;
+}
+
+.header-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.header-btn {
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 12px;
+    background: var(--control-bg); /* MODIFIED */
+    color: var(--text-muted); /* MODIFIED */
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.header-btn:hover {
+    background: var(--control-hover-bg); /* MODIFIED */
+    color: var(--text-color); /* MODIFIED */
+    transform: translateY(-2px);
+}
+
+/* Main Content */
+.main {
+    display: grid;
+    grid-template-columns: 200px 1fr 400px; /* Adjust sidebar width for text */
+    overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(40px);
+    border-right: 1px solid var(--glass-border); /* MODIFIED */
+    padding: 30px 20px; /* Adjust padding */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to start for text */
+    gap: 12px; /* Reduce gap */
+}
+
+.nav-btn {
+    width: 100%; /* Take full width */
+    height: 48px; /* Slightly smaller height */
+    border: none;
+    border-radius: 12px;
+    background: transparent;
+    color: var(--text-muted); /* MODIFIED */
+    font-size: 16px; /* Font size for text */
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    display: flex; /* Flex for icon and text */
+    align-items: center;
+    gap: 12px; /* Gap between icon and text */
+    padding: 0 16px; /* Padding for text */
+    text-align: left;
+}
+
+.nav-btn i {
+    font-size: 20px; /* Icon size */
+}
+
+.nav-btn:hover,
+.nav-btn.active {
+    background: var(--control-hover-bg); /* MODIFIED */
+    color: var(--text-color); /* MODIFIED */
+    transform: none; /* No transform on hover to keep alignment */
+}
+
+.nav-btn.active::after {
+    content: '';
+    position: absolute;
+    right: 0; /* Align to the right */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 28px; /* Slightly taller */
+    background: var(--active-gradient); /* MODIFIED */
+    border-radius: 2px;
+}
+
+/* Track List and other components follow, with colors replaced by variables */
+.track-list, .now-playing, .controls {
+    /* Styles will be affected by variable changes */
+}
+
+.track-item.active {
+    background: var(--control-bg); /* MODIFIED */
+    border: 1px solid var(--glass-border); /* MODIFIED */
+}
+
+.track-item.active::after {
+    background: var(--active-gradient); /* MODIFIED */
+}
+
+.track-title {
+    color: var(--text-color); /* MODIFIED */
+}
+
+.track-artist, .track-duration, .current-artist {
+    color: var(--text-muted); /* MODIFIED */
+}
+
+.current-title {
+    color: var(--text-color); /* MODIFIED */
+}
+
+.progress-fill {
+    background: var(--progress-fill); /* MODIFIED */
+}
+
+/* Original styles from this point on, with minimal changes */
+.content-view-container { display: flex; flex-direction: column; overflow: hidden; }
+.list-header { padding: 30px 40px 20px; display: flex; justify-content: space-between; align-items: center; min-height: 80px; }
+.list-title { font-size: 28px; font-weight: 700; letter-spacing: -1px; color: var(--text-color); }
+.add-music-btn { padding: 12px 24px; background: var(--control-bg); border: 1px solid var(--glass-border); border-radius: 50px; color: var(--text-color); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(20px); display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+.add-music-btn:hover { background: var(--control-hover-bg); transform: translateY(-1px); }
+.file-input { display: none; }
+.track-list { flex: 1; overflow-y: auto; padding: 0 40px 20px; }
+.track-item { padding: 16px 20px; margin: 4px 0; border-radius: 12px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 16px; position: relative; overflow: hidden; padding-right: 110px; }
+.track-item:hover { background: var(--control-hover-bg); }
+.track-actions { display: flex; gap: 8px; opacity: 0.3; transition: opacity 0.3s ease; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); z-index: 10; }
+.track-item:hover .track-actions { opacity: 1; }
+.action-btn { background: var(--control-hover-bg); border: none; border-radius: 8px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 16px; cursor: pointer; transition: all 0.2s ease; pointer-events: auto; }
+.action-btn:hover { background: rgba(255, 255, 255, 0.2); color: var(--text-color); }
+.favorite-btn.active { color: #ff4d4d; }
+.play-btn { width: 56px; height: 56px; background: linear-gradient(135deg, var(--control-hover-bg), var(--control-bg)); border: 1px solid var(--glass-border); font-size: 20px; }
+.control-btn { background: var(--control-bg); color: var(--text-muted); }
+.control-btn:hover { background: var(--control-hover-bg); color: var(--text-color); }
+/* ...and so on for the rest of the original CSS... */
+
+
+/* ▼▼▼ ここから追加 (設定モーダル) ▼▼▼ */
+.modal-wrapper {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease, visibility 0.3s;
+}
+.modal-wrapper.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+.settings-modal {
+    width: 90%;
+    max-width: 500px;
+    z-index: 1101;
+    display: flex;
+    flex-direction: column;
+    background: var(--app-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+.settings-modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--glass-border);
+}
+.settings-modal .modal-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+}
+.settings-modal .modal-body {
+    padding: 16px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+}
+.setting-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    font-weight: 500;
+}
+.setting-label i {
+    font-size: 20px;
+    color: var(--text-muted);
+}
+.setting-control {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+}
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.toggle-switch .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--control-bg);
+    transition: .4s;
+    border-radius: 28px;
+}
+.toggle-switch .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+input:checked + .slider {
+    background-color: #007aff;
+}
+input:checked + .slider:before {
+    transform: translateX(22px);
+}
+.theme-label {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+.modal-button.danger {
+    background: #e53935;
+    color: white;
+    border: none;
+}
+.modal-button.danger:hover {
+    background: #c62828;
+}
+.hidden {
+    display: none;
+}
+/* ▲▲▲ ここまで追加 (設定モーダル) ▲▲▲ */
+/* The rest of the original CSS... */
+* { margin: 0; padding: 0; box-sizing: border-box; } body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif; background: var(--bg-color); color: var(--text-color); overflow: hidden; height: 100vh; transition: background-color 0.3s ease, color 0.3s ease; } .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%), radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.2) 0%, transparent 50%); background-size: 200% 200%; animation: floatBg 20s ease-in-out infinite; z-index: -1; transition: background-position 1s ease; } @keyframes floatBg { 0%, 100% { background-position: 0% 0%, 100% 0%, 40% 40%; } 50% { background-position: 100% 100%, 0% 100%, 60% 60%; } } .app { height: 100vh; display: grid; grid-template-rows: 80px 1fr 100px; background: var(--app-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); transition: background-color 0.3s ease, border-color 0.3s ease; } .header { display: flex; align-items: center; justify-content: space-between; padding: 0 40px; background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(40px); border-bottom: 1px solid var(--glass-border); } .logo { font-size: 24px; font-weight: 600; letter-spacing: -0.5px; background: var(--active-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; } .search-container { flex: 1; max-width: 500px; margin: 0 60px; position: relative; } .search-input { width: 100%; padding: 12px 20px 12px 50px; background: var(--control-bg); border: 1px solid var(--glass-border); border-radius: 50px; color: var(--text-color); font-size: 15px; backdrop-filter: blur(20px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); outline: none; } .search-input:focus { background: var(--control-hover-bg); border-color: rgba(255, 255, 255, 0.2); transform: scale(1.01); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); } .search-input::placeholder { color: var(--text-muted); } .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 16px; pointer-events: none; } .header-actions { display: flex; gap: 16px; align-items: center; } .header-btn { width: 44px; height: 44px; border: none; border-radius: 12px; background: var(--control-bg); color: var(--text-muted); font-size: 18px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); } .header-btn:hover { background: var(--control-hover-bg); color: var(--text-color); transform: translateY(-2px); } .main { display: grid; grid-template-columns: 200px 1fr 400px; overflow: hidden; } .sidebar { background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(40px); border-right: 1px solid var(--glass-border); padding: 30px 20px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; } .nav-btn { width: 100%; height: 48px; border: none; border-radius: 12px; background: transparent; color: var(--text-muted); font-size: 16px; font-weight: 500; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; display: flex; align-items: center; gap: 12px; padding: 0 16px; text-align: left; } .nav-btn i { font-size: 20px; } .nav-btn:hover, .nav-btn.active { background: var(--control-hover-bg); color: var(--text-color); transform: none; } .nav-btn.active::after { content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 28px; background: var(--active-gradient); border-radius: 2px; } .content-view-container { display: flex; flex-direction: column; overflow: hidden; } .list-header { padding: 30px 40px 20px; display: flex; justify-content: space-between; align-items: center; min-height: 80px; } .list-title { font-size: 28px; font-weight: 700; letter-spacing: -1px; color: var(--text-color); } .add-music-btn { padding: 12px 24px; background: var(--control-bg); border: 1px solid var(--glass-border); border-radius: 50px; color: var(--text-color); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(20px); display: flex; align-items: center; gap: 8px; white-space: nowrap; } .add-music-btn:hover { background: var(--control-hover-bg); transform: translateY(-1px); } .file-input { display: none; } .back-btn { padding: 8px 16px; background: var(--control-bg); border: 1px solid var(--glass-border); border-radius: 50px; color: var(--text-color); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(20px); display: flex; align-items: center; gap: 6px; white-space: nowrap; } .back-btn:hover { background: var(--control-hover-bg); transform: translateY(-1px); } .track-list { flex: 1; overflow-y: auto; padding: 0 40px 20px; } .track-item { padding: 16px 20px; margin: 4px 0; border-radius: 12px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; gap: 16px; position: relative; overflow: hidden; padding-right: 110px; } .track-item::before { content: ''; position: absolute; inset: 0; background: rgba(255, 255, 255, 0.02); border-radius: 12px; opacity: 0; transition: opacity 0.3s ease; } .track-item:hover::before { opacity: 1; } .track-item.active { background: var(--control-bg); border: 1px solid var(--glass-border); } .track-item.active::after { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 60%; background: var(--active-gradient); border-radius: 0 2px 2px 0; } .track-number { width: 24px; text-align: center; color: var(--text-muted); font-size: 14px; font-weight: 500; } .track-item.active .track-number { color: var(--text-color); } .track-info { flex: 1; min-width: 0; } .track-title { color: var(--text-color); font-weight: 600; font-size: 15px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .track-artist { color: var(--text-muted); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .track-duration { color: var(--text-muted); font-size: 13px; font-weight: 500; flex-shrink: 0; min-width: 40px; text-align: right; } .track-actions { display: flex; gap: 8px; opacity: 0.3; transition: opacity 0.3s ease; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); z-index: 10; } .track-item:hover .track-actions { opacity: 1; } .action-btn { background: var(--control-hover-bg); border: none; border-radius: 8px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 16px; cursor: pointer; transition: all 0.2s ease; pointer-events: auto; } .action-btn:hover { background: rgba(255, 255, 255, 0.2); color: var(--text-color); } .favorite-btn.active { color: #ff4d4d; } .playlist-list { display: flex; flex-wrap: wrap; gap: 20px; padding: 20px 40px; overflow-y: auto; } .playlist-item { width: calc(33.333% - 14px); min-width: 250px; flex-direction: column; align-items: flex-start; gap: 8px; padding: 20px; background: var(--control-bg); border: 1px solid var(--glass-border); border-radius: 16px; height: 120px; position: relative; overflow: hidden; } .playlist-item .track-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; } .playlist-item .track-artist { font-size: 14px; color: var(--text-muted); } .playlist-item .track-actions { position: absolute; top: 10px; right: 10px; opacity: 1; } .playlist-item:hover .track-actions { opacity: 1; } .now-playing { background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(40px); border-left: 1px solid var(--glass-border); display: flex; flex-direction: column; padding: 40px 30px; align-items: center; position: relative; overflow: hidden; } .album-artwork { width: 260px; height: 260px; border-radius: 24px; background: var(--control-bg); margin-bottom: 32px; position: relative; overflow: hidden; backdrop-filter: blur(20px); border: 1px solid var(--glass-border); } .album-artwork img { width: 100%; height: 100%; object-fit: cover; border-radius: 24px; } .album-artwork.playing { animation: gentleFloat 6s ease-in-out infinite; } @keyframes gentleFloat { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-8px) rotate(1deg); } } .album-placeholder { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; color: var(--text-muted); font-size: 80px; } .current-track-info { text-align: center; margin-bottom: 40px; width: 100%; } .current-title { font-size: 20px; font-weight: 700; color: var(--text-color); margin-bottom: 8px; letter-spacing: -0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .current-artist { font-size: 16px; color: var(--text-muted); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .controls { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(40px); border-top: 1px solid var(--glass-border); padding: 0 40px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 40px; } .left-controls { display: flex; align-items: center; gap: 16px; } .main-controls { display: flex; align-items: center; gap: 16px; } .control-btn { width: 48px; height: 48px; border: none; border-radius: 12px; background: var(--control-bg); color: var(--text-muted); font-size: 18px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); display: flex; align-items: center; justify-content: center; } .control-btn:hover { background: var(--control-hover-bg); color: var(--text-color); transform: scale(1.05); } .control-btn.active { background: rgba(255, 255, 255, 0.15); color: var(--text-color); } .play-btn { width: 56px; height: 56px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08)); border: 1px solid var(--glass-border); font-size: 20px; } .play-btn:hover { background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.12)); transform: scale(1.08); } .right-controls { display: flex; align-items: center; gap: 16px; justify-self: end; } .progress-section { position: absolute; top: -40px; left: 40px; right: 40px; height: 40px; display: flex; align-items: center; gap: 16px; } .time-current { color: var(--text-muted); font-size: 13px; font-weight: 500; min-width: 40px; text-align: right; } .progress-bar { flex: 1; height: 6px; background: var(--control-bg); border-radius: 3px; cursor: pointer; position: relative; overflow: hidden; } .progress-fill { height: 100%; background: var(--progress-fill); border-radius: 3px; transition: width 0.1s ease; position: relative; } .progress-fill::after { content: ''; position: absolute; right: -6px; top: 50%; transform: translateY(-50%); width: 12px; height: 12px; background: white; border-radius: 50%; opacity: 0; transition: opacity 0.2s ease; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); } .progress-bar:hover .progress-fill::after { opacity: 1; } .time-duration { color: var(--text-muted); font-size: 13px; font-weight: 500; min-width: 40px; } .volume-control { display: flex; align-items: center; gap: 12px; } .volume-slider { width: 80px; height: 4px; background: var(--control-bg); border-radius: 2px; cursor: pointer; position: relative; } .volume-fill { height: 100%; background: var(--progress-fill); border-radius: 2px; transition: width 0.1s ease; } .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; color: var(--text-muted); padding: 20px; } .empty-icon { font-size: 64px; margin-bottom: 24px; opacity: 0.6; } .empty-title { font-size: 20px; font-weight: 600; margin-bottom: 8px; color: var(--text-color); } .empty-subtitle { font-size: 14px; line-height: 1.5; } ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 3px; } ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); } @media (max-width: 1200px) { .main { grid-template-columns: 80px 1fr; } .now-playing { display: none; } .sidebar { align-items: center; padding: 30px 0; } .nav-btn { width: 52px; padding: 0; gap: 0; justify-content: center; } .nav-btn.active::after { right: -20px; } } @media (max-width: 768px) { .header { padding: 0 20px; } .search-container { margin: 0 20px; } .main { grid-template-columns: 1fr; } .sidebar { display: none; } .controls { padding: 0 20px; } .progress-section { left: 20px; right: 20px; } .list-header { flex-direction: column; align-items: flex-start; gap: 15px; padding: 20px; } .list-title { font-size: 24px; } .add-music-btn, .back-btn { width: 100%; justify-content: center; } .track-list, .playlist-list { padding: 0 20px 20px; } .playlist-item { width: 100%; min-width: unset; } .track-item { padding: 12px 15px; padding-right: 90px; } .track-number { display: none; } .track-actions { opacity: 1; right: 15px; } } #alertContainer { position: fixed; top: 20px; right: 20px; z-index: 2000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; } .custom-alert { background: rgba(45, 45, 45, 0.9); backdrop-filter: blur(10px); border-radius: 8px; padding: 12px 20px; color: white; font-size: 14px; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); min-width: 250px; max-width: 350px; opacity: 0; transform: translateY(-20px); animation: fadeInSlideUp 0.3s forwards, fadeOut 0.5s 2.5s forwards; pointer-events: auto; } .custom-alert.success { border-left: 4px solid #4CAF50; } .custom-alert.error { border-left: 4px solid #F44336; } .custom-alert.info { border-left: 4px solid #2196F3; } .custom-alert i { font-size: 18px; opacity: 0.8; } @keyframes fadeInSlideUp { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } } @keyframes fadeOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-20px); } } @media (max-width: 768px) { .track-item { padding-right: 90px; } .track-actions { right: 15px; } } #modalContainer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1100; pointer-events: none; } .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); pointer-events: auto; animation: fadeIn 0.3s ease; } @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } } .modal-content { background: rgba(40, 40, 40, 0.9); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); pointer-events: auto; animation: fadeInSlideUp 0.3s ease-out; } .context-menu { position: absolute; min-width: 220px; padding: 8px; transform: translateX(-100%); } .context-menu .modal-header { font-size: 13px; font-weight: 500; color: var(--text-muted); padding: 8px 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .context-menu .modal-list { list-style: none; margin: 4px 0; max-height: 200px; overflow-y: auto; } .context-menu .modal-list-item { padding: 10px 12px; border-radius: 6px; cursor: pointer; font-size: 14px; transition: background-color 0.2s ease; } .context-menu .modal-list-item:hover { background-color: var(--control-hover-bg); } .context-menu .modal-footer { border-top: 1px solid var(--glass-border); margin-top: 4px; padding-top: 4px; } .context-menu .new-playlist-btn { width: 100%; background: none; border: none; color: var(--text-color); padding: 10px 12px; display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px; border-radius: 6px; transition: background-color 0.2s ease; } .context-menu .new-playlist-btn:hover { background-color: var(--control-hover-bg); } .create-playlist-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 380px; padding: 24px; display: flex; flex-direction: column; gap: 20px; } .create-playlist-modal .modal-header { font-size: 18px; font-weight: 600; } .modal-input { width: 100%; padding: 12px 16px; background: var(--control-bg); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--text-color); font-size: 15px; outline: none; transition: all 0.2s ease; } .modal-input:focus { border-color: rgba(255, 255, 255, 0.3); background: var(--control-hover-bg); } .create-playlist-modal .modal-footer { display: flex; justify-content: flex-end; gap: 12px; } .modal-button, .modal-button-primary { padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; border: none; transition: all 0.2s ease; } .modal-button { background-color: var(--control-bg); color: var(--text-color); } .modal-button:hover { background-color: var(--control-hover-bg); } .modal-button-primary { background-color: #fff; color: #0a0a0a; } .modal-button-primary:hover { background-color: #e0e0e0; }
