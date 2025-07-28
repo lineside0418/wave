@@ -128,15 +128,39 @@
                         <span>Theme</span>
                     </div>
                     <div class="setting-control">
-                         <span class="theme-label">Light</span>
-                         <div class="toggle-switch">
+                        <span class="theme-label">Purple</span>
+                        <div class="toggle-switch">
                             <input type="checkbox" id="themeToggleSwitch">
                             <label for="themeToggleSwitch" class="slider"></label>
                         </div>
-                        <span class="theme-label">Dark</span>
+                        <span class="theme-label">Blue</span>
                     </div>
                 </div>
-                 <div class="setting-item">
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <i class="ri-swap-line"></i>
+                        <span>Crossfade</span>
+                    </div>
+                    <div class="setting-control">
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="crossfadeToggle">
+                            <label for="crossfadeToggle" class="slider"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <i class="ri-save-line"></i>
+                        <span>Remember Playback Position</span>
+                    </div>
+                    <div class="setting-control">
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="rememberPositionToggle">
+                            <label for="rememberPositionToggle" class="slider"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="setting-item">
                     <div class="setting-label">
                         <i class="ri-database-2-line"></i>
                         <span>Library</span>
@@ -147,6 +171,38 @@
                         </button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirmationModal" class="modal-wrapper hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content confirmation-modal">
+            <div class="modal-body">
+                <h3>Are you sure?</h3>
+                <p>This action cannot be undone. All your tracks will be permanently deleted.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button" id="cancelClearBtn">Cancel</button>
+                <button class="modal-button modal-button-danger" id="confirmClearBtn">Clear</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="fullscreenPlaylistModal" class="modal-wrapper hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content playlist-modal-fullscreen">
+            <div class="modal-header">
+                <h3>Add to Playlist</h3>
+                <button id="closeFullscreenPlaylistBtn" class="action-btn"><i class="ri-close-line"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="playlist-list-fullscreen" id="fullscreenPlaylistList">
+                    <!-- Playlist items will be rendered here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button-primary" id="newPlaylistFullscreenBtn"><i class="ri-add-line"></i> New Playlist</button>
             </div>
         </div>
     </div>

@@ -55,7 +55,14 @@
     transition: background-position 1s ease;
   }
   
-  [data-theme="light"] .bg-overlay {
+  [data-theme="purple"] .bg-overlay {
+    background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.2) 0%, transparent 50%);
+  }
+  
+  /* Blue Theme for bg-overlay */
+  [data-theme="blue"] .bg-overlay {
     background: radial-gradient(circle at 20% 80%, rgba(0, 122, 255, 0.15) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(0, 199, 255, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 40% 40%, rgba(100, 200, 255, 0.1) 0%, transparent 50%);
@@ -235,6 +242,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    height: 100%;
   }
   
   .list-header {
@@ -304,6 +312,8 @@
     flex: 1;
     overflow-y: auto;
     padding: 0 40px 20px;
+    position: relative;
+    scroll-behavior: smooth;
   }
   
   .track-item {
@@ -649,6 +659,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
+    z-index: 10;
   }
   
   .time-current,
@@ -834,7 +845,6 @@
     inset: 0;
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(5px);
-    pointer-events: auto;
     animation: fadeIn 0.3s ease;
   }
   
@@ -985,9 +995,27 @@
   }
   
   .modal-wrapper.hidden {
-    display: none;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    z-index: -9999;
   }
-  
+
+  .modal-wrapper.hidden .modal-content {
+      transform: translate(-50%, -40%);
+  }
+
+  .modal-wrapper {
+      position: fixed;
+      inset: 0;
+      z-index: 1100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.3s ease;
+  }
+
+
   /* --- Controls Bar Redesign & Fullscreen Player --- */
   .controls {
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
@@ -1201,7 +1229,65 @@
     height: 72px;
     font-size: 28px;
   }
-  
+
+  #fullscreenPlaylistModal {
+      z-index: 1300;
+  }
+
+  .playlist-modal-fullscreen .modal-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--glass-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+
+  .playlist-modal-fullscreen .modal-body {
+      padding: 16px;
+      overflow-y: auto;
+      flex: 1;
+  }
+
+  .playlist-list-fullscreen .playlist-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+  }
+
+  .playlist-list-fullscreen .playlist-item:hover {
+      background-color: var(--control-hover-bg);
+  }
+
+  .playlist-list-fullscreen .playlist-info {
+      flex: 1;
+  }
+
+  .playlist-list-fullscreen .playlist-name {
+      font-weight: 500;
+  }
+
+  .playlist-list-fullscreen .playlist-track-count {
+      font-size: 13px;
+      color: var(--text-muted);
+  }
+
+  .playlist-modal-fullscreen .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--glass-border);
+  }
+
+  .playlist-modal-fullscreen .modal-button-primary {
+      width: 100%;
+      justify-content: center;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+  }
+
+
   /* ▼▼▼ ここから追加 ▼▼▼ */
   .player-extra-controls {
     width: 100%;
@@ -1230,8 +1316,176 @@
     font-size: 20px;
   }
   /* ▲▲▲ ここまで追加 ▲▲▲ */
-  
-  
+
+  /* Settings Modal */
+  .settings-modal {
+    position: relative;
+    transform: translate(0, 0);
+    width: 90%;
+    max-width: 500px;
+    background: rgba(30, 30, 30, 0.7);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .modal-wrapper.hidden .settings-modal {
+      transform: scale(0.95);
+  }
+
+  .settings-modal .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--glass-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+
+  .settings-modal .modal-header h3 {
+      font-size: 18px;
+      font-weight: 600;
+  }
+
+  .settings-modal .modal-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+  }
+
+  .setting-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 10px;
+  }
+
+  .setting-label {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 15px;
+  }
+
+  .setting-label i {
+      font-size: 20px;
+      color: var(--text-muted);
+      width: 24px;
+      text-align: center;
+  }
+
+  .setting-control {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+  }
+
+  /* iOS-like Toggle Switch */
+  .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 51px;
+      height: 31px;
+  }
+
+  .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+  }
+
+  .toggle-switch .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #333;
+      transition: .4s;
+      border-radius: 34px;
+  }
+
+  .toggle-switch .slider:before {
+      position: absolute;
+      content: "";
+      height: 27px;
+      width: 27px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+      box-shadow: 0 0 2px rgba(0,0,0,0.3);
+  }
+
+  .toggle-switch input:checked + .slider {
+      background-color: #34C759;
+  }
+
+  .toggle-switch input:checked + .slider:before {
+      transform: translateX(20px);
+  }
+
+  .theme-label {
+      font-size: 14px;
+      color: var(--text-muted);
+  }
+
+  .modal-button.danger {
+      background-color: #a02d2d;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .modal-button.danger:hover {
+      background-color: #c0392b;
+  }
+
+  .confirmation-modal {
+    padding: 24px;
+    text-align: center;
+  }
+
+  .confirmation-modal .modal-body {
+    margin-bottom: 20px;
+  }
+
+  .confirmation-modal h3 {
+    margin-bottom: 8px;
+    font-size: 18px;
+  }
+
+  .confirmation-modal p {
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  .confirmation-modal .modal-footer {
+    display: flex;
+    gap: 12px;
+  }
+
+  .confirmation-modal .modal-footer button {
+    flex: 1;
+  }
+
+  .modal-button-danger {
+    background-color: #d9534f;
+    color: white;
+  }
+  .modal-button-danger:hover {
+    background-color: #c9302c;
+  }
+
   /* Responsive Media Queries */
   @media (max-width: 1200px) {
     .main {
